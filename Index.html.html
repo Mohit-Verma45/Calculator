@@ -4,170 +4,130 @@
 <meta charset="UTF-8">
 <title>Cloudblitz NACH EMI</title>
 
-<style>
-:root{
-  --bg:#0b0f1a;
-  --card:#14182a;
-  --accent:#7b6cff;
-  --text:#ffffff;
-  --muted:#a1a1b5;
-}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+<style>
 body{
   margin:0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background:radial-gradient(circle at top, #1a1f3c, var(--bg));
-  color:var(--text);
+  font-family:Arial, Helvetica, sans-serif;
+  background:#0b0f1a;
+  color:#fff;
 }
 
 .header{
   text-align:center;
-  padding:40px 20px;
+  padding:30px;
+  background:#11163a;
 }
-
 .header h1{
   margin:0;
-  font-size:42px;
-  color:var(--accent);
-  letter-spacing:1px;
-}
-
-.header p{
-  margin-top:10px;
-  color:var(--muted);
+  color:#7b6cff;
 }
 
 .container{
-  max-width:1200px;
+  max-width:1100px;
   margin:auto;
-  padding:20px;
+  padding:25px;
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:30px;
+  gap:25px;
 }
 
 .card{
-  background:linear-gradient(145deg,#161a30,#0f1325);
-  border-radius:20px;
-  padding:28px;
-  box-shadow:0 20px 50px rgba(0,0,0,.6);
+  background:#14182a;
+  padding:25px;
+  border-radius:16px;
 }
 
 label{
   display:block;
-  margin-top:15px;
+  margin-top:12px;
   font-size:14px;
-  color:var(--muted);
+  color:#b7b7d6;
 }
 
 input,select{
   width:100%;
   padding:14px;
   margin-top:6px;
-  border-radius:14px;
+  border-radius:12px;
   border:none;
   background:#0e1222;
   color:#fff;
   font-size:15px;
 }
 
-input:focus,select:focus{
-  outline:2px solid var(--accent);
+/* Date picker fix */
+input[type="date"]{
+  border:2px solid #2d9cdb;
+}
+input[type="date"]::-webkit-calendar-picker-indicator{
+  filter:invert(1);
 }
 
 .actions{
-  margin-top:22px;
+  margin-top:20px;
   display:flex;
   gap:15px;
 }
-
 button{
   flex:1;
   padding:14px;
   border:none;
-  border-radius:14px;
+  border-radius:12px;
   font-size:15px;
-  font-weight:600;
   cursor:pointer;
+  font-weight:600;
 }
+.primary{ background:#7b6cff; color:#fff; }
+.secondary{ background:#1f2340; color:#fff; }
 
-.primary{
-  background:var(--accent);
-  color:#fff;
-}
-
-.secondary{
-  background:#1b1f38;
-  color:#fff;
-}
-
+/* Right side */
 .summary{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:20px;
 }
-
 .box{
-  background:#0f1325;
-  padding:22px;
-  border-radius:18px;
+  background:#0e1222;
+  padding:20px;
+  border-radius:14px;
   text-align:center;
 }
-
-.box span{
-  display:block;
-  font-size:13px;
-  color:var(--muted);
-}
-
+.box span{ color:#aaa; font-size:13px; }
 .box strong{
-  font-size:28px;
-  margin-top:10px;
   display:block;
-  color:var(--accent);
+  margin-top:8px;
+  font-size:26px;
+  color:#7b6cff;
 }
 
 .schedule{
-  margin-top:22px;
-  background:#0f1325;
-  padding:22px;
-  border-radius:18px;
-}
-
-.row{
-  display:flex;
-  justify-content:space-between;
-  margin-top:10px;
-  font-size:18px;
+  margin-top:20px;
+  background:#0e1222;
+  padding:20px;
+  border-radius:14px;
 }
 
 table{
   width:100%;
   border-collapse:collapse;
-  margin-top:18px;
+  margin-top:15px;
 }
-
 th,td{
-  padding:12px;
+  padding:10px;
+  border-bottom:1px solid #2a2e55;
   text-align:center;
-  border-bottom:1px solid #2b2f55;
 }
+th{ color:#7b6cff; }
 
-th{
-  color:var(--accent);
-  font-size:14px;
-}
-
-.note{
-  margin-top:12px;
-  font-size:12px;
-  color:var(--muted);
+.pdf-btn{
+  max-width:1100px;
+  margin:20px auto;
 }
 
 @media(max-width:900px){
-  .container{
-    grid-template-columns:1fr;
-  }
+  .container{ grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -175,38 +135,37 @@ th{
 <body>
 
 <div class="header">
-  <h1>Cloudblitz NACH EMI</h1>
-  <p>World-class EMI Calculator with Auto Date Rules</p>
+  <h1>Cloudblitz NACH EMI Calculator</h1>
 </div>
 
 <div class="container">
 
-<!-- LEFT -->
+<!-- INPUT -->
 <div class="card">
   <label>Total Course Fee</label>
   <input type="number" id="totalFee" placeholder="60000">
 
-  <label>Upfront / Down Payment</label>
-  <input type="number" id="downPayment" placeholder="10000">
+  <label>Upfront Paid</label>
+  <input type="number" id="upfront" placeholder="10000">
 
   <label>Admission Date</label>
   <input type="date" id="admissionDate">
 
   <label>Tenure (Months)</label>
-  <select id="tenure">
+  <select id="months">
     <option>2</option><option>3</option><option>4</option>
     <option>5</option><option selected>6</option>
     <option>7</option><option>8</option><option>9</option>
   </select>
 
   <div class="actions">
-    <button class="primary" onclick="calculate()">Calculate EMI</button>
+    <button class="primary" onclick="calculate()">Calculate</button>
     <button class="secondary" onclick="resetAll()">Reset</button>
   </div>
 </div>
 
-<!-- RIGHT -->
-<div>
+<!-- OUTPUT -->
+<div id="screenArea">
   <div class="summary">
     <div class="box">
       <span>Loan Amount</span>
@@ -214,93 +173,133 @@ th{
     </div>
     <div class="box">
       <span>Monthly EMI</span>
-      <strong>₹ <span id="emi">0</span></strong>
+      <strong>₹ <span id="emiAmt">0</span></strong>
     </div>
   </div>
 
   <div class="schedule">
-    <div class="row">
-      <div>Duration</div>
-      <div><span id="tenureMonths">6</span> Months</div>
-    </div>
-    <div class="row">
-      <div>Total Amount</div>
-      <div>₹ <span id="totalPay">0</span></div>
-    </div>
+    <p><b>Total Months:</b> <span id="tenureShow">0</span></p>
+    <p><b>Grand Total:</b> ₹ <span id="grandTotal">0</span></p>
 
-    <h3 style="margin-top:18px;">EMI Schedule</h3>
+    <h3>EMI Schedule</h3>
     <table>
       <thead>
         <tr>
           <th>EMI No</th>
           <th>EMI Date</th>
+          <th>Month</th>
           <th>Amount (₹)</th>
         </tr>
       </thead>
       <tbody id="emiTable"></tbody>
     </table>
-
-    <div class="note">
-      * EMI date auto-decided (7th / 15th) based on admission date
-    </div>
   </div>
 </div>
 
 </div>
 
+<div class="pdf-btn">
+  <button class="primary" onclick="downloadPDF()">Download PDF</button>
+</div>
+
+<!-- CLEAN PDF TEMPLATE -->
+<div id="pdfTemplate" style="display:none;background:#fff;color:#000;padding:30px;">
+  <h2 style="text-align:center;">Cloudblitz NACH EMI – Payment Schedule</h2>
+  <hr>
+
+  <p><b>Admission Date:</b> <span id="pdfAdmission"></span></p>
+  <p><b>Total Course Fee:</b> ₹ <span id="pdfTotal"></span></p>
+  <p><b>Upfront Paid:</b> ₹ <span id="pdfUpfront"></span></p>
+  <p><b>Loan Amount:</b> ₹ <span id="pdfLoan"></span></p>
+  <p><b>Monthly EMI:</b> ₹ <span id="pdfEmi"></span></p>
+  <p><b>Total Tenure:</b> <span id="pdfTenure"></span> Months</p>
+
+  <h3>EMI Schedule (Month Wise)</h3>
+
+  <table border="1" width="100%" cellpadding="8" cellspacing="0">
+    <thead>
+      <tr>
+        <th>EMI No</th>
+        <th>EMI Date</th>
+        <th>Month</th>
+        <th>Amount (₹)</th>
+      </tr>
+    </thead>
+    <tbody id="pdfTable"></tbody>
+  </table>
+
+  <h3 style="margin-top:20px;">Grand Total Paid: ₹ <span id="pdfGrand"></span></h3>
+</div>
+
 <script>
 function calculate(){
   let total = Number(totalFee.value);
-  let down = Number(downPayment.value);
-  let months = Number(tenure.value);
+  let up = Number(upfront.value);
+  let m = Number(months.value);
   let adm = admissionDate.value;
-  let table = emiTable;
+  emiTable.innerHTML = "";
 
-  table.innerHTML = "";
+  if(!total || !m || !adm) return;
+  if(up > total) up = total;
 
-  if(down > total) down = total;
-
-  let loan = total - down;
-  let emiAmt = loan / months;
+  let loan = total - up;
+  let emi = loan / m;
 
   loanAmt.innerText = loan.toFixed(0);
-  emi.innerText = emiAmt.toFixed(0);
-  tenureMonths.innerText = months;
-  totalPay.innerText = loan.toFixed(0);
+  emiAmt.innerText = emi.toFixed(0);
+  tenureShow.innerText = m;
+  grandTotal.innerText = total.toFixed(0);
 
-  let admDate = new Date(adm);
-  let debitDay = (admDate.getDate() <= 20) ? 7 : 15;
+  let ad = new Date(adm);
+  let debitDay = ad.getDate() <= 20 ? 7 : 15;
+  let d = new Date(ad);
+  d.setMonth(d.getMonth()+1);
+  d.setDate(debitDay);
 
-  let date = new Date(admDate);
-  date.setMonth(date.getMonth() + 1);
-  date.setDate(debitDay);
+  for(let i=1;i<=m;i++){
+    let day = String(d.getDate()).padStart(2,"0");
+    let mon = d.toLocaleString("en-US",{month:"short"});
+    let yr = d.getFullYear();
 
-  for(let i=1;i<=months;i++){
-    let d = String(date.getDate()).padStart(2,"0");
-    let m = date.toLocaleString("en-US",{month:"short"});
-    let y = date.getFullYear();
-
-    table.innerHTML += `
+    emiTable.innerHTML += `
       <tr>
         <td>${i}</td>
-        <td>${d} ${m} ${y}</td>
-        <td>₹ ${emiAmt.toFixed(0)}</td>
-      </tr>
-    `;
-    date.setMonth(date.getMonth()+1);
+        <td>${day} ${mon} ${yr}</td>
+        <td>${mon}</td>
+        <td>${emi.toFixed(0)}</td>
+      </tr>`;
+    d.setMonth(d.getMonth()+1);
   }
 }
 
 function resetAll(){
   totalFee.value="";
-  downPayment.value="";
+  upfront.value="";
   admissionDate.value="";
-  tenure.value="6";
-  loanAmt.innerText=0;
-  emi.innerText=0;
-  tenureMonths.innerText=6;
-  totalPay.innerText=0;
+  months.value="6";
   emiTable.innerHTML="";
+  loanAmt.innerText=0;
+  emiAmt.innerText=0;
+  tenureShow.innerText=0;
+  grandTotal.innerText=0;
+}
+
+function downloadPDF(){
+  pdfAdmission.innerText = admissionDate.value;
+  pdfTotal.innerText = totalFee.value;
+  pdfUpfront.innerText = upfront.value;
+  pdfLoan.innerText = loanAmt.innerText;
+  pdfEmi.innerText = emiAmt.innerText;
+  pdfTenure.innerText = tenureShow.innerText;
+  pdfGrand.innerText = grandTotal.innerText;
+  pdfTable.innerHTML = emiTable.innerHTML;
+
+  html2pdf().from(document.getElementById("pdfTemplate")).set({
+    margin:10,
+    filename:"Cloudblitz_NACH_EMI_Schedule.pdf",
+    html2canvas:{scale:2},
+    jsPDF:{format:"a4", orientation:"portrait"}
+  }).save();
 }
 </script>
 
